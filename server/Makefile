@@ -1,11 +1,13 @@
 NAME := server
 
 SRCS := \
-	srcs/main.c
+	srcs/main.c \
+	srcs/server.c
 
 CFLAGS =\
-	-Wextra -Werror -Wall
-$(if $(DEBUG), CFLAGS += g,)
+	-Wextra -Werror -Wall -g
+
+#$(if $(DEBUG), CFLAGS += -g, )
 
 OBJS := $(SRCS:srcs/%.c=objs/%.o)
 
@@ -17,7 +19,7 @@ INCLUDES := \
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	cc $(CFLAGS) $< -o $@
+	cc $(CFLAGS) $(OBJS) -o $@
 
 objs/%.o: srcs/%.c | $(dir objs/%.o) $(dir .deps/%.d)
 	cc -c $(CFLAGS) $(INCLUDES) $< -MMD -MP -MT $@ -MF $(@:objs/%.o=.deps/%.d) -o $@
